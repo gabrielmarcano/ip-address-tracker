@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
+import countries from 'i18n-iso-countries'
 import useCountry from '../api'
+import en from 'i18n-iso-countries/langs/en.json' // Import English locale data
 
 function Tracker() {
   const [ipAddressSearch, setIpAddressSearch] = useState<string>('')
   const { data, loading, error, fetchData } = useCountry()
 
   useEffect(() => {
-    // Fetch initial data for a default IP address or domain
+    countries.registerLocale(en)
     handleSearch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSearch = async () => {
@@ -91,6 +94,18 @@ function TextInfo({
   const isLoading = useMemo(() => loading, [loading])
   const isEmpty = useMemo(() => !info, [info])
 
+  const text = useMemo(() => {
+    if (title === 'LOCATION' && info && extra) {
+      return countries.getName(info, 'en') + ', ' + extra
+    }
+
+    if (title === 'TIMEZONE' && info) {
+      return 'UTC ' + info
+    }
+
+    return info
+  }, [title, info, extra])
+
   return (
     <>
       <div
@@ -107,14 +122,7 @@ function TextInfo({
           <div className="h-4 w-24 animate-pulse bg-gray-300 md:w-32"></div>
         ) : (
           <div className="text-xl font-medium text-gray-950">
-            {isEmpty ? (
-              'N/A'
-            ) : (
-              <>
-                {title === 'TIMEZONE' ? 'UTC ' + info : info}
-                {extra ? `, ${extra}` : ''}
-              </>
-            )}
+            {isEmpty ? 'N/A' : <>{text}</>}
           </div>
         )}
       </div>
