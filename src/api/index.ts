@@ -31,13 +31,13 @@ function useCountry() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<AxiosError | null>(null)
 
-  const fetchData = async (ipAddressSearch: string) => {
+  const fetchData = async (ipAddress: string) => {
     setLoading(true)
     setError(null)
 
     try {
       const response = await api.get('/country', {
-        params: { ipAddressSearch },
+        params: { ipAddress },
       })
       setData(response.data)
     } catch (err: unknown) {

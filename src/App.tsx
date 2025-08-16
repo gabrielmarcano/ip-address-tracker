@@ -1,5 +1,4 @@
 import { useLayoutEffect, useState } from 'react'
-import './App.css'
 import Map from './components/Map'
 import Tracker from './components/Tracker'
 
@@ -26,12 +25,18 @@ function App() {
       <div className="font-rubik flex min-h-screen w-full flex-col">
         <img
           src={backgroundImage}
-          alt="preview"
+          alt="background image"
           className="h-[300px] w-full md:h-[220px]"
         />
         <Map />
         <Tracker />
       </div>
+      {/* <div>
+        <p className="h-50 bg-gray-200 text-center text-xs text-gray-500">
+          &copy; {new Date().getFullYear()} Gabriel Oliveira. All rights
+          reserved.
+        </p>
+      </div> */}
     </>
   )
 }

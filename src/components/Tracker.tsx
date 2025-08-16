@@ -35,11 +35,10 @@ function Tracker() {
         >
           <input
             type="text"
-            placeholder="Search for any IP address or domain"
+            placeholder="Search for any IP address"
             className={`w-full rounded-s-xl bg-white p-4 text-lg focus:outline-none md:p-3 md:px-5 md:text-base ${!ipAddressSearch && 'tracking-tighter'}`}
             value={ipAddressSearch}
             onChange={(e) => setIpAddressSearch(e.target.value)}
-            required
           />
           <button
             type="submit"
