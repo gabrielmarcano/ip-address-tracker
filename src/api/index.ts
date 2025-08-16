@@ -8,18 +8,36 @@ const api = axios.create({
   },
 })
 
+type CountryData = {
+  ip: string
+  location: {
+    country: string
+    region: string
+    timezone: string
+  }
+  domains: string[]
+  as: {
+    asn: number
+    name: string
+    route: string
+    domain: string
+    type: string
+  }
+  isp: string
+}
+
 function useCountry() {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<CountryData | null>(null)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<AxiosError | null>(null)
 
-  const fetchData = async (ipAddress: string) => {
+  const fetchData = async (ipAddressSearch: string) => {
     setLoading(true)
     setError(null)
 
     try {
       const response = await api.get('/country', {
-        params: { ipAddress },
+        params: { ipAddressSearch },
       })
       setData(response.data)
     } catch (err: unknown) {
