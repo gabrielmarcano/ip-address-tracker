@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import useCountry from '../api'
 
 function Tracker() {
@@ -7,32 +7,25 @@ function Tracker() {
 
   useEffect(() => {
     // Fetch initial data for a default IP address or domain
-    setIpAddressSearch('8.8.8.8')
     handleSearch()
   }, [])
 
   const handleSearch = async () => {
-    if (ipAddressSearch) {
-      try {
-        await fetchData(ipAddressSearch).then(() => {})
-        setIpAddressSearch('')
-      } catch (err) {
-        console.error('Error fetching data:', err)
-      }
+    try {
+      await fetchData(ipAddressSearch).then(() => {})
+      setIpAddressSearch('')
+    } catch (err) {
+      console.error('Error fetching data:', err)
     }
   }
 
-  console.log(ipAddressSearch, data, loading, error)
-
-  if (error) return <div>Error: {error.message}</div>
-
   return (
-    <div className="@tracker absolute top-[15%] flex w-full flex-col items-center p-6">
-      <h1 className="mb-4 text-2xl font-medium text-white">
+    <div className="@tracker absolute top-[30] flex w-full flex-col items-center p-6">
+      <h1 className="mb-8 text-2xl font-medium text-white md:mb-4">
         IP Address Tracker
       </h1>
 
-      <div className="mb-4 flex w-full">
+      <div className="mb-6 flex w-full md:mb-12 md:max-w-120">
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -43,59 +36,94 @@ function Tracker() {
           <input
             type="text"
             placeholder="Search for any IP address or domain"
-            className="w-[85%] rounded-md bg-white p-2 focus:outline-none"
+            className={`w-full rounded-s-xl bg-white p-4 text-lg focus:outline-none md:p-3 md:px-5 md:text-base ${!ipAddressSearch && 'tracking-tighter'}`}
             value={ipAddressSearch}
             onChange={(e) => setIpAddressSearch(e.target.value)}
             required
           />
           <button
             type="submit"
-            className="flex h-full w-[15%] cursor-pointer items-center justify-center rounded-md bg-black p-2"
+            className="flex h-full w-15 cursor-pointer items-center justify-center rounded-e-xl border-l-0 bg-black p-2"
           >
             <img src="/src/assets/icon-arrow.svg" alt="arrow" />
           </button>
         </form>
       </div>
 
-      <div className="flex w-full flex-col items-center justify-center rounded-md bg-white p-4 md:flex-row">
-        <TextInfo text={'IP ADDRESS'} subtitle />
-        {data && data.ip ? (
-          <TextInfo text={data.ip} />
-        ) : (
-          <TextInfo text="N/A" />
-        )}
+      {error ? (
+        <div className="text-red-500">Error fetching data: {error.message}</div>
+      ) : (
+        <div className="flex w-full flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm md:max-w-240 md:flex-row md:justify-start md:px-4 md:shadow-md">
+          <TextInfo title={'IP ADDRESS'} info={data?.ip} loading={loading} />
 
-        <TextInfo text={'LOCATION'} subtitle />
-        {data && data.location.country && data.location.region ? (
-          <TextInfo text={data.location.country} />
-        ) : (
-          <TextInfo text="N/A" />
-        )}
+          <TextInfo
+            title={'LOCATION'}
+            info={data?.location.country}
+            extra={data?.location.region}
+            loading={loading}
+          />
 
-        <TextInfo text={'TIMEZONE'} subtitle />
-        {data && data.location.timezone ? (
-          <TextInfo text={`UTC ${data?.location.timezone}`} />
-        ) : (
-          <TextInfo text="N/A" />
-        )}
+          <TextInfo
+            title={'TIMEZONE'}
+            info={data?.location.timezone}
+            loading={loading}
+          />
 
-        <TextInfo text={'ISP'} subtitle />
-        {data && data.isp ? (
-          <TextInfo text={data.isp} />
-        ) : (
-          <TextInfo text="N/A" />
-        )}
-      </div>
+          <TextInfo title={'ISP'} info={data?.isp} nomargin loading={loading} />
+        </div>
+      )}
     </div>
   )
 }
 
-function TextInfo({ text, subtitle }: { text: string; subtitle?: boolean }) {
-  if (subtitle) {
-    return <h3 className="text-xs font-bold text-gray-400">{text}</h3>
-  }
+function TextInfo({
+  title,
+  info,
+  extra,
+  nomargin,
+  loading,
+}: {
+  title: 'IP ADDRESS' | 'LOCATION' | 'TIMEZONE' | 'ISP'
+  info?: string
+  extra?: string
+  nomargin?: boolean
+  loading?: boolean
+}) {
+  const isLoading = useMemo(() => loading, [loading])
+  const isEmpty = useMemo(() => !info, [info])
 
-  return <div className="mb-3 text-xl font-medium text-gray-950">{text}</div>
+  return (
+    <>
+      <div
+        className={`text-center md:min-h-15 md:w-full md:px-4 md:text-left ${nomargin ? '' : 'mb-5 md:mb-0'}`}
+      >
+        <h3
+          className={`mb-1 text-xs font-bold tracking-widest text-gray-400 md:text-[10px]`}
+        >
+          {title}
+        </h3>
+
+        {/* Show loading skeleton or N/A based on loading state */}
+        {isLoading ? (
+          <div className="h-4 w-24 animate-pulse bg-gray-300 md:w-32"></div>
+        ) : (
+          <div className="text-xl font-medium text-gray-950">
+            {isEmpty ? (
+              'N/A'
+            ) : (
+              <>
+                {title === 'TIMEZONE' ? 'UTC ' + info : info}
+                {extra ? `, ${extra}` : ''}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+      {!nomargin && (
+        <div className="mr-5 hidden h-20 w-[1px] bg-gray-300 md:block"></div>
+      )}
+    </>
+  )
 }
 
 export default Tracker

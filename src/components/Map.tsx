@@ -4,7 +4,7 @@ function Map() {
   const position: [number, number] = [51.505, -0.09] // Default position
 
   return (
-    <div className="@map h-80 w-full bg-black">
+    <div className="@map h-80 w-full bg-gray-200">
       <h1>Map Component</h1>
       {/* Map rendering logic will go here */}
     </div>
