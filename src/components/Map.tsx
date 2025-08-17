@@ -2,7 +2,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
 
-import location from '/public/icon-location.svg'
+import iconLocation from '../assets/icon-location.svg'
 import L from 'leaflet'
 
 function ChangeView({ center }: { center: [number, number] }) {
@@ -33,7 +33,7 @@ function Map({ position }: { position: [number, number] }) {
             position={position}
             icon={
               new L.Icon({
-                iconUrl: location,
+                iconUrl: iconLocation,
                 iconSize: [30, 35],
               })
             }

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import countries from 'i18n-iso-countries'
 import { useIpify } from '../api/queries'
 
-import arrow from '/public/icon-arrow.svg'
+import iconArrow from '../assets/icon-arrow.svg'
 
 function Tracker() {
   const [ipAddressSearch, setIpAddressSearch] = useState<string>('')
@@ -36,7 +36,7 @@ function Tracker() {
             type="submit"
             className="flex h-full w-15 cursor-pointer items-center justify-center rounded-e-xl border-l-0 bg-black p-2 hover:bg-gray-950"
           >
-            <img src={arrow} alt="arrow" />
+            <img src={iconArrow} alt="arrow" />
           </button>
         </form>
       </div>
