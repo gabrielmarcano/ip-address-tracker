@@ -27,7 +27,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [https://ip-address-tracker-ten-beta.vercel.app/](https://ip-address-tracker-ten-beta.vercel.app/)
 
 ## Built with
 
