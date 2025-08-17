@@ -5,6 +5,9 @@ import { useIpify, useNominatim } from './api/queries'
 import countries from 'i18n-iso-countries'
 import en from 'i18n-iso-countries/langs/en.json'
 
+import backgroundDesktop from './assets/pattern-bg-desktop.png'
+import backgroundMobile from './assets/pattern-bg-mobile.png'
+
 function App() {
   const [backgroundImage, setBackgroundImage] = useState<string>('')
   const [position, setPosition] = useState<[number, number]>([
@@ -34,7 +37,7 @@ function App() {
     const handleResize = () => {
       // Set background image based on screen width
       setBackgroundImage(
-        `/src/assets/pattern-bg-${window.innerWidth < 768 ? 'mobile' : 'desktop'}.png`
+        window.innerWidth < 768 ? backgroundMobile : backgroundDesktop
       )
     }
 
