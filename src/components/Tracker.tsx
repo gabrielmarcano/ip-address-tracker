@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import countries from 'i18n-iso-countries'
 import { useIpify } from '../api/queries'
 
-import arrow from '../assets/icon-arrow.svg'
+import arrow from '/public/icon-arrow.svg'
 
 function Tracker() {
   const [ipAddressSearch, setIpAddressSearch] = useState<string>('')

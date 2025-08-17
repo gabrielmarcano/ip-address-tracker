@@ -5,8 +5,8 @@ import { useIpify, useNominatim } from './api/queries'
 import countries from 'i18n-iso-countries'
 import en from 'i18n-iso-countries/langs/en.json'
 
-import backgroundDesktop from './assets/pattern-bg-desktop.png'
-import backgroundMobile from './assets/pattern-bg-mobile.png'
+import backgroundDesktop from '/public/pattern-bg-desktop.png'
+import backgroundMobile from '/public/pattern-bg-mobile.png'
 
 function App() {
   const [backgroundImage, setBackgroundImage] = useState<string>('')

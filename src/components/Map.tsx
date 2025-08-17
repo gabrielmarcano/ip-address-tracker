@@ -2,7 +2,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
 
-import location from '../assets/icon-location.svg'
+import location from '/public/icon-location.svg'
 import L from 'leaflet'
 
 function ChangeView({ center }: { center: [number, number] }) {
