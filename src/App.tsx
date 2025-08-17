@@ -7,7 +7,9 @@ import en from 'i18n-iso-countries/langs/en.json'
 
 function App() {
   const [backgroundImage, setBackgroundImage] = useState<string>('')
-  const [position, setPosition] = useState<[number, number]>([6, -64])
+  const [position, setPosition] = useState<[number, number]>([
+    10.140374, -64.679587,
+  ])
 
   countries.registerLocale(en)
 
@@ -57,12 +59,12 @@ function App() {
         <Map position={position} />
         <Tracker />
       </div>
-      {/* <div>
-        <p className="h-50 bg-gray-200 text-center text-xs text-gray-500">
-        &copy; {new Date().getFullYear()} Gabriel Marcano. All rights
-        reserved.
+      <div>
+        <p className="bg-gray-200 text-center text-xs text-gray-500">
+          &copy; {new Date().getFullYear()} Gabriel Marcano. All rights
+          reserved.
         </p>
-        </div> */}
+      </div>
     </>
   )
 }

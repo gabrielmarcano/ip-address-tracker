@@ -11,13 +11,12 @@ function ChangeView({ center }: { center: [number, number] }) {
 }
 
 function Map({ position }: { position: [number, number] }) {
-  console.log(position)
   return (
     <>
-      <div className="@map -z-1 h-[calc(100vh+100px)] w-full">
+      <div className="@map -z-1 h-[calc(130vh)] w-full md:h-[calc(100vh+100px)]">
         <MapContainer
           center={[...position]}
-          zoom={8}
+          zoom={8.2}
           zoomControl={false}
           scrollWheelZoom={false}
           className="h-full w-full"
