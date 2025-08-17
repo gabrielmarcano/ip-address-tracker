@@ -1,26 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import countries from 'i18n-iso-countries'
-import useCountry from '../api'
-import en from 'i18n-iso-countries/langs/en.json' // Import English locale data
+import { useIpify } from '../api/queries'
 
 function Tracker() {
   const [ipAddressSearch, setIpAddressSearch] = useState<string>('')
-  const { data, loading, error, fetchData } = useCountry()
 
-  useEffect(() => {
-    countries.registerLocale(en)
-    handleSearch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const ipify = useIpify(ipAddressSearch)
 
-  const handleSearch = async () => {
-    try {
-      await fetchData(ipAddressSearch).then(() => {})
-      setIpAddressSearch('')
-    } catch (err) {
-      console.error('Error fetching data:', err)
-    }
-  }
+  const ipifyData = useMemo(() => ipify.data?.data, [ipify.data])
 
   return (
     <div className="@tracker absolute top-[30] flex w-full flex-col items-center p-6">
@@ -32,7 +19,7 @@ function Tracker() {
         <form
           onSubmit={(e) => {
             e.preventDefault()
-            handleSearch()
+            ipify.refetch()
           }}
           className="flex w-full items-center justify-between"
         >
@@ -52,28 +39,41 @@ function Tracker() {
         </form>
       </div>
 
-      {error ? (
-        <div className="text-red-500">Error fetching data: {error.message}</div>
-      ) : (
-        <div className="flex w-full flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm md:max-w-240 md:flex-row md:justify-start md:px-4 md:shadow-md">
-          <TextInfo title={'IP ADDRESS'} info={data?.ip} loading={loading} />
+      <div className="flex w-full flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm md:max-w-240 md:flex-row md:justify-start md:px-4 md:shadow-md">
+        {ipify.error ? (
+          <div className="text-center text-red-500">
+            Error fetching data: {ipify.error.message}
+          </div>
+        ) : (
+          <>
+            <TextInfo
+              title={'IP ADDRESS'}
+              info={ipifyData?.ip}
+              loading={ipify.isLoading}
+            />
 
-          <TextInfo
-            title={'LOCATION'}
-            info={data?.location.country}
-            extra={data?.location.region}
-            loading={loading}
-          />
+            <TextInfo
+              title={'LOCATION'}
+              info={ipifyData?.location.country}
+              extra={ipifyData?.location.region}
+              loading={ipify.isLoading}
+            />
 
-          <TextInfo
-            title={'TIMEZONE'}
-            info={data?.location.timezone}
-            loading={loading}
-          />
+            <TextInfo
+              title={'TIMEZONE'}
+              info={ipifyData?.location.timezone}
+              loading={ipify.isLoading}
+            />
 
-          <TextInfo title={'ISP'} info={data?.isp} nomargin loading={loading} />
-        </div>
-      )}
+            <TextInfo
+              title={'ISP'}
+              info={ipifyData?.isp}
+              nomargin
+              loading={ipify.isLoading}
+            />
+          </>
+        )}
+      </div>
     </div>
   )
 }
