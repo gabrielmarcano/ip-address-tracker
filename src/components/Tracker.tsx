@@ -32,7 +32,7 @@ function Tracker() {
           />
           <button
             type="submit"
-            className="flex h-full w-15 cursor-pointer items-center justify-center rounded-e-xl border-l-0 bg-black p-2"
+            className="flex h-full w-15 cursor-pointer items-center justify-center rounded-e-xl border-l-0 bg-black p-2 hover:bg-gray-950"
           >
             <img src="/src/assets/icon-arrow.svg" alt="arrow" />
           </button>
