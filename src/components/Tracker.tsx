@@ -12,7 +12,7 @@ function Tracker() {
   const ipifyData = useMemo(() => ipify.data?.data, [ipify.data])
 
   return (
-    <div className="@tracker absolute top-[30] flex w-full flex-col items-center p-6">
+    <div className="@tracker absolute top-[20px] flex w-full flex-col items-center p-6">
       <h1 className="mb-8 text-2xl font-medium text-white md:mb-4">
         IP Address Tracker
       </h1>

@@ -52,7 +52,7 @@ function App() {
           <img
             src={backgroundImage}
             alt="background image"
-            className="h-[300px] w-full md:h-[220px]"
+            className="h-[300px] w-full md:h-[240px]"
           />
         )}
 
